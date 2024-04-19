@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, DetailsFragment.newInstance())
+                    //.replace(R.id.container, DetailsFragment.newInstance(getSupportFragmentManager()))
                     .commitNow();
         }
     }

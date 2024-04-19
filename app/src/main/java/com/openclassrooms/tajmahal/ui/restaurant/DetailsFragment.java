@@ -3,11 +3,14 @@ package com.openclassrooms.tajmahal.ui.restaurant;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.openclassrooms.tajmahal.R;
 import com.openclassrooms.tajmahal.databinding.FragmentDetailsBinding;
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
+import com.openclassrooms.tajmahal.domain.model.Review;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -37,6 +41,12 @@ public class DetailsFragment extends Fragment {
 
     private DetailsViewModel detailsViewModel;
 
+
+
+    /**
+    @Inject
+    RestaurantApi restaurantApi;
+    */
     /**
      * This method is called when the fragment is first created.
      * It's used to perform one-time initialization.
@@ -57,6 +67,7 @@ public class DetailsFragment extends Fragment {
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -105,8 +116,13 @@ public class DetailsFragment extends Fragment {
      *
      * @param restaurant The restaurant object containing details to be displayed.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateUIWithRestaurant(Restaurant restaurant) {
         if (restaurant == null) return;
+        /*
+        Log.i("test", restaurantApi.getReviews().size()+"");
+
+         */
 
         binding.tvRestaurantName.setText(restaurant.getName());
         binding.tvRestaurantDay.setText(detailsViewModel.getCurrentDay(requireContext()));
@@ -121,6 +137,62 @@ public class DetailsFragment extends Fragment {
         binding.buttonAdress.setOnClickListener(v -> openMap(restaurant.getAddress()));
         binding.buttonPhone.setOnClickListener(v -> dialPhoneNumber(restaurant.getPhoneNumber()));
         binding.buttonWebsite.setOnClickListener(v -> openBrowser(restaurant.getWebsite()));
+
+        detailsViewModel.getReviews().observe(this, reviews -> {
+            int total = reviews.size();
+            int avisCinqEtoiles = 0;
+            int avisQuatreEtoile = 0;
+            int avisTroisEtoiles = 0;
+            int avisDeuxEtoile = 0;
+            int avisUneEtoile = 0;
+
+            for (Review review : reviews) {
+                if (review.getRate() == 5) {
+                    avisCinqEtoiles += 1;
+                } else if (review.getRate() == 4) {
+                    avisQuatreEtoile += 1;
+                } else if (review.getRate() == 3) {
+                    avisTroisEtoiles += 1;
+                } else if (review.getRate() == 2) {
+                    avisDeuxEtoile += 1;
+                } else if (review.getRate() == 1) {
+                    avisUneEtoile += 1;
+                }
+            }
+            binding.progressCinq.setProgress(avisCinqEtoiles);
+            //binding.progressCinq.setMin(0);
+            binding.progressCinq.setMax(total);
+
+            binding.progressQuatre.setProgress(avisQuatreEtoile);
+            //binding.progressQuatre.setMin(0);
+            binding.progressQuatre.setMax(total);
+
+            binding.progressTrois.setProgress(avisTroisEtoiles);
+            //binding.progressTrois.setMin(0);
+            binding.progressTrois.setMax(total);
+
+            binding.progressDeux.setProgress(avisDeuxEtoile);
+            //binding.progressDeux.setMin(0);
+            binding.progressDeux.setMax(total);
+
+            binding.progressUne.setProgress(avisUneEtoile);
+            //binding.progressUne.setMin(0);
+            binding.progressUne.setMax(total);
+        });
+
+        binding.tvLaisserAvis.setOnClickListener(v -> {
+            changerFragment();
+        });
+
+
+
+    }
+
+    private void changerFragment() {
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, ReviewFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
@@ -170,6 +242,7 @@ public class DetailsFragment extends Fragment {
             Toast.makeText(requireActivity(), R.string.no_browser_found, Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public static DetailsFragment newInstance() {
         return new DetailsFragment();
