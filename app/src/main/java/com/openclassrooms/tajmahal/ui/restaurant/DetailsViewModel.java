@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.tajmahal.R;
 import com.openclassrooms.tajmahal.data.repository.RestaurantRepository;
+import com.openclassrooms.tajmahal.data.service.RestaurantFakeApi;
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
 import com.openclassrooms.tajmahal.domain.model.Review;
 
@@ -38,6 +39,10 @@ public class DetailsViewModel extends ViewModel {
     @Inject
     public DetailsViewModel(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
+    }
+
+    public DetailsViewModel() {
+        this.restaurantRepository = new RestaurantRepository(new RestaurantFakeApi());
     }
 
     /**
