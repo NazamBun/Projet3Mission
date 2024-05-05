@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +51,6 @@ public class ReviewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupViewModel();
     }
 
     @Override
@@ -59,6 +60,7 @@ public class ReviewFragment extends Fragment {
         //View view = inflater.inflate(R.layout.fragment_review, container, false);
         binding = FragmentReviewBinding.inflate(inflater, container, false);
         reviewListAdapter = new ReviewListAdapter();
+        binding.fragmentReviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.fragmentReviewRecyclerView.setAdapter(reviewListAdapter);
         setupViewModel();
         updateUI();
@@ -67,7 +69,9 @@ public class ReviewFragment extends Fragment {
     }
 
     private void updateUI() {
+
         detailsViewModel.getReviews().observe(getViewLifecycleOwner(), reviews -> {
+            Log.d("reviewFragment", reviews.size()+ "");
             reviewListAdapter.updateList(reviews);
         });
     }

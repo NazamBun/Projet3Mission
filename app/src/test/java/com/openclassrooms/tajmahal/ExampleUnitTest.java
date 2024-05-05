@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.openclassrooms.tajmahal.data.service.RestaurantApi;
+import com.openclassrooms.tajmahal.data.service.RestaurantFakeApi;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -14,4 +17,12 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void countReview() {
+        RestaurantApi api = new RestaurantFakeApi();
+        int reviewsCount = api.getReviews().size();
+        assertEquals(5, reviewsCount);
+    }
+
 }
