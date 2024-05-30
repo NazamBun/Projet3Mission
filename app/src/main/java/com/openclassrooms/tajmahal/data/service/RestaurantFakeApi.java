@@ -74,8 +74,9 @@ public class RestaurantFakeApi implements RestaurantApi {
     }
 
     @Override
-    public void addReview(String comment, int rating, String avatar, String userName) {
+    public void addReview(String comment, Integer rating, String avatar, String userName) {
         if (comment.isEmpty()) return;
+        if (rating == null) return;
         Review review = new Review(userName, avatar, comment, rating);
         List<Review> tmp = new ArrayList<>();
         tmp.add(review);

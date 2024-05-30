@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import androidx.core.widget.TextViewCompat;
+
 import com.openclassrooms.tajmahal.data.service.RestaurantApi;
 import com.openclassrooms.tajmahal.data.service.RestaurantFakeApi;
 
@@ -23,6 +25,27 @@ public class ExampleUnitTest {
         RestaurantApi api = new RestaurantFakeApi();
         int reviewsCount = api.getReviews().size();
         assertEquals(5, reviewsCount);
+    }
+
+    @Test
+    public void addReview() {
+        RestaurantApi api = new RestaurantFakeApi();
+        api.addReview("commentaire", 4, "", "Julie");
+        assertEquals(6, api.getReviews().size());
+    }
+
+    @Test
+    public void addEmptyCommentReview() {
+        RestaurantApi api = new RestaurantFakeApi();
+        api.addReview("", 0, "", "");
+        assertEquals(5, api.getReviews().size());
+    }
+
+    @Test
+    public void addEmptyRatingReview() {
+        RestaurantApi api = new RestaurantFakeApi();
+        api.addReview("commentaire", null, "", "");
+        assertEquals(5, api.getReviews().size());
     }
 
 }

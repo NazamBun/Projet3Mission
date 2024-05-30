@@ -53,7 +53,7 @@ public interface RestaurantApi {
      */
     List<Review> getReviews();
 
-    void addReview(String comment, int rating, String avatar, String userName);
+    void addReview(String comment, Integer rating, String avatar, String userName);
 
     User getUser();
 
