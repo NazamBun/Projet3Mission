@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.openclassrooms.tajmahal.data.service.RestaurantApi;
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
 import com.openclassrooms.tajmahal.domain.model.Review;
+import com.openclassrooms.tajmahal.domain.model.User;
 
 import java.util.List;
 
@@ -54,8 +55,16 @@ public class RestaurantRepository {
         return new MutableLiveData<>(restaurantApi.getRestaurant());
     }
 
+    public LiveData<User> getUser(){
+        return new MutableLiveData<>(restaurantApi.getUser());
+    }
+
     public LiveData<List<Review>> getReviews() {
         return new MutableLiveData<>(restaurantApi.getReviews());
+    }
+
+    public void addReview(String comment, int rating, String avatar, String userName) {
+        restaurantApi.addReview(comment, rating, avatar, userName);
     }
 
 }

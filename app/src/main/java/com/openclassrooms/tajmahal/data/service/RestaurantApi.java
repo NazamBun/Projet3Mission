@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
 import com.openclassrooms.tajmahal.domain.model.Review;
+import com.openclassrooms.tajmahal.domain.model.User;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public interface RestaurantApi {
      */
     Restaurant getRestaurant();
 
+
     /**
      * Retrieves all the reviews of the restaurant.
      * <p>
@@ -50,4 +52,10 @@ public interface RestaurantApi {
      * @return The {@link Restaurant} object containing all the details of the restaurant.
      */
     List<Review> getReviews();
+
+    void addReview(String comment, int rating, String avatar, String userName);
+
+    User getUser();
+
+
 }

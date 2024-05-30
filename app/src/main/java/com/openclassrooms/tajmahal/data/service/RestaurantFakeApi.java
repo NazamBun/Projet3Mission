@@ -2,7 +2,9 @@ package com.openclassrooms.tajmahal.data.service;
 
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
 import com.openclassrooms.tajmahal.domain.model.Review;
+import com.openclassrooms.tajmahal.domain.model.User;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,6 +71,23 @@ public class RestaurantFakeApi implements RestaurantApi {
     @Override
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    @Override
+    public void addReview(String comment, int rating, String avatar, String userName) {
+        if (comment.isEmpty()) return;
+        Review review = new Review(userName, avatar, comment, rating);
+        List<Review> tmp = new ArrayList<>();
+        tmp.add(review);
+        tmp.addAll(reviews);
+        reviews = tmp;
+    }
+
+    @Override
+    public User getUser() {
+        String avatar = "https://xsgames.co/randomusers/assets/avatars/female/1.jpg";
+        String userName = "Julie";
+        return new User(userName, avatar);
     }
 
 }

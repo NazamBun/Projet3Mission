@@ -3,6 +3,7 @@ package com.openclassrooms.tajmahal.ui.restaurant;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -11,8 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.tajmahal.R;
 import com.openclassrooms.tajmahal.databinding.FragmentReviewBinding;
+import com.openclassrooms.tajmahal.domain.model.User;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,8 +69,42 @@ public class ReviewFragment extends Fragment {
         binding.fragmentReviewRecyclerView.setAdapter(reviewListAdapter);
         setupViewModel();
         updateUI();
+        setupAddReview();
+        setupAvatar();
 
         return binding.getRoot();
+    }
+
+    private void setupAvatar() {
+        // Appeler le detailViewModel getUser()
+        LiveData<User> user = detailsViewModel.getUser();
+        user.observe(getViewLifecycleOwner(), user1 -> {
+            //avec glide mettre en place l'avatar dans l'ui
+            Glide.with(binding.ivNewReviewAvatar.getContext())
+                    .load(user1.getPictureUrl())
+                    .centerCrop()
+                    .into(binding.ivNewReviewAvatar);
+            binding.tvNewReviewName.setText(user1.getUserName());
+        });
+
+    }
+
+    private void setupAddReview() {
+        binding.buttonValidate.setOnClickListener(
+                arg -> {
+                    Log.d("reviewFragment", "click sur le bouton valider");
+                    String comment = String.valueOf(Objects.requireNonNull(binding.tilNewReviewComent.getEditText()).getText());
+                    Log.d("reviewFragment", "Comment: "+comment);
+                    float rating = binding.rbNewReviewRate.getRating();
+                    Log.d("reviewFragment", "rating: "+ rating);
+                    // Appeler le detailViewModel getUser()
+                    String avatar = "https://xsgames.co/randomusers/assets/avatars/female/1.jpg";
+                    String userName = "Julie";
+                    detailsViewModel.addReview(comment, (int) rating, avatar, userName);
+                    updateUI();
+                }
+        );
+
     }
 
     private void updateUI() {

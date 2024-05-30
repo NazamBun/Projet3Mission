@@ -19,7 +19,7 @@ public class ReviewListViewHolder extends RecyclerView.ViewHolder {
 
     public void setReview(Review review) {
         this.review = review;
-        binding.tvItemName.setText(review.getComment());
+        binding.tvReviewComment.setText(review.getComment());
         Glide.with(binding.ivItemAvatar.getContext())
                 .load(review.getPicture())
                 .centerCrop()

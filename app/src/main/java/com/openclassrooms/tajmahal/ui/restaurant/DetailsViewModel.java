@@ -11,6 +11,7 @@ import com.openclassrooms.tajmahal.data.repository.RestaurantRepository;
 import com.openclassrooms.tajmahal.data.service.RestaurantFakeApi;
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
 import com.openclassrooms.tajmahal.domain.model.Review;
+import com.openclassrooms.tajmahal.domain.model.User;
 
 import javax.inject.Inject;
 
@@ -54,10 +55,16 @@ public class DetailsViewModel extends ViewModel {
         return restaurantRepository.getRestaurant();
     }
 
+    public LiveData<User> getUser() {
+        return restaurantRepository.getUser();
+    }
+
     public LiveData<List<Review>> getReviews() {
         return restaurantRepository.getReviews();
     }
-
+    public void addReview(String comment, int rating, String avatar, String userName) {
+        restaurantRepository.addReview(comment, rating, avatar, userName);
+    }
 
     /**
      * Retrieves the current day of the week in French.
