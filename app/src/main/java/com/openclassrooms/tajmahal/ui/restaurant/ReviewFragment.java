@@ -72,6 +72,14 @@ public class ReviewFragment extends Fragment {
         setupAddReview();
         setupAvatar();
 
+        //BackStack
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -99,7 +107,7 @@ public class ReviewFragment extends Fragment {
                     Log.d("reviewFragment", "rating: "+ rating);
                     // Appeler le detailViewModel getUser()
                     String avatar = "https://xsgames.co/randomusers/assets/avatars/female/1.jpg";
-                    String userName = "Julie";
+                    String userName = "Manon Garcia";
                     detailsViewModel.addReview(comment, (int) rating, avatar, userName);
                     updateUI();
                 }
@@ -115,6 +123,9 @@ public class ReviewFragment extends Fragment {
         });
     }
 
+    /**
+     * Initializes the ViewModel for this fragment.
+     */
     private void setupViewModel() {
         detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
     }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.tajmahal.R;
@@ -20,9 +21,15 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListViewHolder
         listReview = new ArrayList<>();
     }
 
-    public void updateList(List<Review> listReview) {
-        this.listReview = listReview;
-        notifyDataSetChanged(); // privilégier le diffUtil pour regénérer à l'écran uniquement les éléments de la liste qui ont changé
+    public void updateList(List<Review> newList) {
+        //Méthode NotifyDataSetChanged : entraine un rafraichissement complet de la liste coté ui
+        //this.listReview = listReview;
+        //notifyDataSetChanged(); // privilégier le diffUtil pour regénérer à l'écran uniquement les éléments de la liste qui ont changé
+        // Méthode DiffUtil : entraine un rafraichissement partiel de la liste côté UI
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReviewDiffCallback(listReview, newList));
+        listReview.clear();
+        listReview.addAll(newList);
+        diffResult.dispatchUpdatesTo(this);
     }
     @NonNull
     @Override

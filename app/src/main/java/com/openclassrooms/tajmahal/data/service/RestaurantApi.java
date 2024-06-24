@@ -53,8 +53,22 @@ public interface RestaurantApi {
      */
     List<Review> getReviews();
 
+
+    /**
+     * Retrieves the average rating of the restaurant.
+     * <p>
+     * This method adds a review to the restaurant.
+     * </p>
+     * @param comment
+     * @param rating
+     * @param avatar
+     * @param userName
+     */
     void addReview(String comment, Integer rating, String avatar, String userName);
 
+    /**
+     * Retrieves the user.
+     */
     User getUser();
 
 

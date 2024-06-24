@@ -87,7 +87,7 @@ public class RestaurantFakeApi implements RestaurantApi {
     @Override
     public User getUser() {
         String avatar = "https://xsgames.co/randomusers/assets/avatars/female/1.jpg";
-        String userName = "Julie";
+        String userName = "Manon Garcia";
         return new User(userName, avatar);
     }
 
